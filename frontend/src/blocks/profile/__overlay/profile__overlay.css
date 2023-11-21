@@ -1,0 +1,6 @@
+.profile__overlay {
+  background: url('../../../images/pencil.svg') center / 26px 26px no-repeat;
+  max-width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}

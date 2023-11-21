@@ -1,0 +1,9 @@
+.login__link {
+  text-decoration: none;
+  margin-left: 5px;
+  color: white;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 400;
+  word-wrap: break-word;
+}

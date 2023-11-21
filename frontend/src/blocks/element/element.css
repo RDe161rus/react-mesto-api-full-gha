@@ -1,0 +1,8 @@
+.element {
+  position: relative;
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-radius: 10px;
+}

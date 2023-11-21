@@ -1,0 +1,17 @@
+.login__btn-register {
+  width: 358px;
+  height: 50px;
+  margin: 216px 0 0;
+  padding: 0;
+  font-size: 18px;
+  font-family: Inter;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+@media screen and (max-width: 767px) {
+  .login__btn-register {
+    width: 260px;
+    height: 46px;
+    font-size: 16px;
+  }
+}

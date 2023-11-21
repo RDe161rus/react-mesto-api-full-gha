@@ -1,0 +1,21 @@
+.login__signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  height: 17px;
+  color: white;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+.login__signup p {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 400;
+  word-wrap: break-word;
+}

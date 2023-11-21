@@ -1,0 +1,30 @@
+.login__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0 0;
+  padding: 0;
+  gap: 25px;
+}
+@media screen and (max-width: 767px) {
+  .login__form {
+    width: 260px;
+  }
+}
+
+.login__form input {
+  box-sizing: border-box;
+
+  border: none;
+  outline: none;
+  width: calc(100% - 8px);
+  height: 30px;
+  border-bottom: 2px solid #cccccc;
+  background-color: #000000;
+  color: #cccccc;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 400;
+  word-wrap: break-word;
+}
