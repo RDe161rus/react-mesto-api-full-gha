@@ -13,7 +13,7 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     onCardDelete(card);
   };
   const isOwn = card.owner === currentUser._id;
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const isLiked = card.likes.some(i => i === currentUser._id);
   const cardLikeButtonClassName = `element__button ${isLiked && 'element__button_active'}`;
 
   return (
