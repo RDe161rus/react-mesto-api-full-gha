@@ -38,10 +38,7 @@ class Api {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name: data.name,
-        link: data.link
-      })
+      body: JSON.stringify(data)
     }).then(this._handleResponse);
   }
 
@@ -70,9 +67,10 @@ class Api {
   }
 }
 export const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-72',
+  url: 'http://localhost:3000',
   headers: {
-    authorization: '87d63540-4095-4028-b72b-2672dee97eab',
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    Accept: 'application/json',
     'Content-Type': 'application/json'
   }
 });

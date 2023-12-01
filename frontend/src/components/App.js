@@ -24,92 +24,27 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
-  const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
-  const [register, setRegister] = useState(null);
+  const [register, setRegister] = useState(false);
   const [intoTooltip, setIntoTooltip] = useState(false);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    api
-      .getUserInfo()
-      .then(data => {
-        setCurrentUser(data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, []);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then(data => {
-        setCards(data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([userData, cardsData]) => {
+          setCurrentUser(userData);
+          setCards(cardsData);
+        })
+        .catch(err => console.error(`Ошибка: ${err}`));
+    }
+  }, [loggedIn]);
 
-  //
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then(newCard => {
-        setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
-      })
-      .catch(e => console.error(e));
-  }
-
-  function handleCardDelete(card) {
-    api
-      .deleteCard(card._id)
-      .then(res => {
-        setCards(state => state.filter(item => card._id !== item._id));
-      })
-      .catch(e => console.error(e));
-  }
-  //
-  function handleUpdateUser(data) {
-    api
-      .editUserInfo(data)
-      .then(data => {
-        setCurrentUser(data);
-        setIsEditProfilePopupOpen(false);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-  //
-  function handleUpdateAvatar(data) {
-    api
-      .editAvatar(data)
-      .then(data => {
-        setCurrentUser(data);
-        setIsEditAvatarPopupOpen(false);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-  //
-  function handleAddPlaceSubmit(data) {
-    api
-      .addCards(data)
-      .then(data => {
-        setCards([data, ...cards]);
-        setIsAddPlacePopupOpen(false);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
   //
   const handleCardClick = data => {
     setSelectedCard(data);
@@ -123,19 +58,77 @@ function App() {
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    console.log(card);
+    console.log(currentUser._id);
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then(newCard => {
+        setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
+        
+      })
+      .catch(e => console.error(`Ошибочка ${e}`));
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(res => {
+        setCards(state => state.filter(item => card._id !== item._id));
+      })
+      .catch(e => console.error(`Ошибочка ${e}`));
+  }
   //
+  function handleUpdateUser(data) {
+    api
+      .editUserInfo(data)
+      .then(data => {
+        setCurrentUser(data);
+        setIsEditProfilePopupOpen(false);
+      })
+      .catch(err => {
+        console.error(`Ошибочка ${err}`);
+      });
+  }
+  //
+  function handleUpdateAvatar(data) {
+    api
+      .editAvatar(data)
+      .then(data => {
+        setCurrentUser(data);
+        setIsEditAvatarPopupOpen(false);
+      })
+      .catch(err => {
+        console.error(`Ошибочка ${err}`);
+      });
+  }
+  //
+  function handleAddPlaceSubmit(data) {
+    api
+      .addCards(data)
+      .then(data => {
+        setCards([data, ...cards]);
+        setIsAddPlacePopupOpen(false);
+      })
+      .catch(e => {
+        console.error(`Ошибочка ${e}`);
+      });
+  }
 
   const handleRegister = ({ email, password }) => {
     auth
       .register(email, password)
       .then(res => {
-        setRegister(res);
+        setRegister(true);
         setIntoTooltip(true);
         navigate('/sign-in');
       })
-      .catch(err => {
-        console.error(err);
-        setRegister(null);
+      .catch(e => {
+        console.error(`Ошибочка ${e}`);
+        setRegister(false);
         setIntoTooltip(true);
       });
   };
@@ -144,34 +137,11 @@ function App() {
       .login(email, password)
       .then(res => {
         if (res.token) {
-          setLoggedIn(true);
-          localStorage.setItem('token', res.token);
           navigate('/', { replace: true });
           return res;
         }
       })
-      .catch(err => console.error(err));
-  };
-  useEffect(() => {
-    const jwt = localStorage.getItem('token');
-    if (jwt) {
-      checkToken(jwt);
-    }
-  }, [loggedIn]);
-
-  const checkToken = jwt => {
-    auth
-      .checkToken(jwt)
-      .then(res => {
-        if (res) {
-          setLoggedIn(true);
-          setEmail(res.data.email);
-          navigate('/', { replace: true });
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      .catch(e => console.error(`Ошибочка ${e}`));
   };
 
   const handleExit = () => {
@@ -179,6 +149,24 @@ function App() {
     setEmail('');
     localStorage.removeItem('token');
   };
+
+  useEffect(() => {
+    if (token) {
+      auth
+        .checkToken(token)
+        .then(res => {
+          if (res) {
+            setLoggedIn(true);
+            setEmail(res.email);
+            navigate('/');
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }, [token, navigate]);
+
   //
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
