@@ -11,7 +11,10 @@ const error = require('./middlewares/error');
 const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://mestofront.nomoredomainsmonster.ru',
+  credentials: true,
+}));
 app.use(cookieParser());
 mongoose.connect(MONGO_URL);
 app.use(requestLogger);
