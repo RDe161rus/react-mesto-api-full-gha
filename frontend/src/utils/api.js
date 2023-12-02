@@ -67,7 +67,7 @@ class Api {
   }
 }
 export const api = new Api({
-  url: 'http://localhost:3000',
+  url: 'https://api.mestofront.nomoredomainsmonster.ru',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
     Accept: 'application/json',
