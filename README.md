@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.99.136
+IP 158.160.99.136
 
 Frontend https://mestofront.nomoredomainsmonster.ru
 
