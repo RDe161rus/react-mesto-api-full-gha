@@ -11,6 +11,6 @@
 
 IP-адрес 158.160.99.136
 
-Frontend https://...
+Frontend https://mestofront.nomoredomainsmonster.ru
 
-Backend https://...
+Backend https://api.mestofront.nomoredomainsmonster.ru
