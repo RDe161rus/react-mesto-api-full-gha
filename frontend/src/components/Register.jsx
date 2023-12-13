@@ -30,8 +30,8 @@ export default function Register({ onRegister }) {
         <input
           placeholder="Пароль"
           required
-          id="password"
-          type="userPassword"
+          id="userPassword"
+          type="password"
           value={password}
           onChange={handlePasswordChange}
         />
