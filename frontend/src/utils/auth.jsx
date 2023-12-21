@@ -1,5 +1,4 @@
 const BASE_URL = 'https://api.mestofront.nomoredomainsmonster.ru';
-
 const checkResponse = res => {
   return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 };

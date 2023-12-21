@@ -33,7 +33,7 @@ function App() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
-
+  
   useEffect(() => {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -129,7 +129,9 @@ function App() {
         setIntoTooltip(true);
       });
   };
+
   const handleLogin = ({ email, password }) => {
+    
     auth
       .login(email, password)
       .then(res => {
